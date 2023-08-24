@@ -61,10 +61,17 @@ def main(args):
                 # increment word counter
                 count += 1
 
-    print("Extracted", count, "/", word_num, "[", round(100 * count / word_num, 2), "%", "] usable words")
+    logging.info("Extracted [%s/%s] %s %s valid words" % (count, word_num, round(100 * count / word_num, 2), "%"))
+    logging.info("Saved extracted words to: %s" % (
+                args.out + "/" + args.lang + ".lower_" + lower_string + "_upper_" + upper_string))
 
 
 if __name__ == "__main__":
+    import logging
+
+    formatter = "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"
+    logging.basicConfig(format=formatter, level=logging.INFO)
+
     import argparse
 
     parser = argparse.ArgumentParser(description='')

@@ -1,11 +1,9 @@
-from collections import defaultdict
 from tqdm import tqdm
 
 
 # checks if alignment is "word to word"
 # i.e. that no word is mapped to more than one word
 # NOTE: this is different from 1:1 mapping
-
 def single_occurance_check(alignment):
     # split alignment into source and target indexes
     alignment = alignment.split()
@@ -54,17 +52,25 @@ def main(args):
                     if single_occurance_check(forward):
                         # check backward
                         if single_occurance_check(backward):
+                            # e.g. 0|0-0 1-1 2-2|0-0 1-1 2-2
                             out_f.write(str(n) + "|" + forward + "|" + backward + "\n")
+
                             # increment extracted counter
                             useful += 1
 
                     # increment total counter
                     count += 1
 
-    print("Extracted", useful, "/", count, round(100 * useful / count, 2), "% usable alignments")
+    logging.info("Extracted [%s/%s] %s %s valid alignments" % (useful, count, round(100 * useful / count, 2), "%"))
+    logging.info("Saved extracted alignments to: %s" % (args.out + "/filtered_alignments.txt"))
 
 
 if __name__ == "__main__":
+    import logging
+
+    formatter = "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"
+    logging.basicConfig(format=formatter, level=logging.INFO)
+
     import argparse
 
     parser = argparse.ArgumentParser(description='')

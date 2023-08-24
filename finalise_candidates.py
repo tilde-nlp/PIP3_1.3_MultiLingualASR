@@ -3,6 +3,9 @@ from tqdm import tqdm
 import random
 import sys
 
+# set seed
+random.seed(1234)
+
 
 # sample words to be replaced from a pool
 # after sampling the word is removed from the pool, so that each word occurs at most 1 time
@@ -119,7 +122,8 @@ def simple_sample(sentence, idx_list):
 
 def main(args):
     if args.sample_pool and args.sample_all:
-        sys.exit("please specify one or none of [--sample_pool, --sample_all], but not both.")
+        logging.error("Error: please specify one or none of [--sample_pool, --sample_all], but not both.")
+        sys.exit()
 
     # read in the transliteration pairs
     transl = defaultdict(str)
@@ -213,11 +217,18 @@ def main(args):
                         # increment sentence counter
                         count += 1
 
-        print("Generated %s sentences with word substitutions." % count)
-        print("Generated %s control sentences." % count_control)
+        logging.info("Generated %s sentences with word substitutions." % count)
+        logging.info("Generated %s baseline sentences." % count_control)
+        logging.info("Saved sentences with substitutions (i.e. augmented sentences) to: %s" % (args.out + "/final.txt"))
+        logging.info("Saved baseline sentences to: %s" % (args.out + "/final_no_replace.txt"))
 
 
 if __name__ == "__main__":
+    import logging
+
+    formatter = "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"
+    logging.basicConfig(format=formatter, level=logging.INFO)
+
     import argparse
 
     parser = argparse.ArgumentParser(description='')

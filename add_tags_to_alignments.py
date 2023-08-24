@@ -1,6 +1,4 @@
-
 def main(args):
-
     with open(args.alignment_text, 'r', encoding='utf-8') as in_f:
         with open(args.tags, 'r', encoding='utf-8') as in_f_2:
             with open(args.out + "/aligned_tagged_text_raw.txt", 'w', encoding='utf-8', newline='\n') as out_f:
@@ -30,12 +28,20 @@ def main(args):
                         pos = pos.lower().replace("-", "0")
                         tag_str.append(pos)
 
+                    # add POS tag to alignment-text entries
                     # e.g. 2|0-0|0-0|summary|kopsavilkums|n0msn000000000000000000000l0
                     line = line + "|" + " ".join(tag_str)
                     out_f.write(line + "\n")
 
+    logging.info("Saved alignment-text-tag file to: %s" % (args.out + "/aligned_tagged_text_raw.txt"))
+
 
 if __name__ == "__main__":
+    import logging
+
+    formatter = "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"
+    logging.basicConfig(format=formatter, level=logging.INFO)
+
     import argparse
 
     parser = argparse.ArgumentParser(description='')

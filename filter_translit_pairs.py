@@ -1,7 +1,3 @@
-from collections import defaultdict
-from tqdm import tqdm
-
-
 def main(args):
     # init counter
     count = 0
@@ -37,12 +33,19 @@ def main(args):
                         # increment extracted pair counter
                         count += 1
 
-    print("Kept %s/%s [%s %s] transliterated pairs." % (
+    logging.info("Kept [%s/%s] %s %s transliterated pairs." % (
         count, len(pairs), round(100 * count / len(pairs), 2), "%"))
-    print("wrote to:", args.out + "/unique_transl_pairs_filtered_translated_clean.txt")
+    logging.info(
+        "Saved filtered source-target pairs with transliterations to: %s" % (
+                args.out + "/unique_transl_pairs_filtered_translated_clean.txt"))
 
 
 if __name__ == "__main__":
+    import logging
+
+    formatter = "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"
+    logging.basicConfig(format=formatter, level=logging.INFO)
+
     import argparse
 
     parser = argparse.ArgumentParser(description='')

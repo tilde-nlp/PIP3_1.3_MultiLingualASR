@@ -1,11 +1,7 @@
 from collections import defaultdict
 
 
-# source - eng
-# target - lv
-
 def main(args):
-
     # read alignments into dictionary
     alignments = defaultdict(str)
     with open(args.alignments, "r", encoding="utf-8") as in_f:
@@ -47,11 +43,19 @@ def main(args):
                     if alignments[n] == "":
                         continue
 
+                    # add parallel text to alignments
                     # e.g. 2|0-0|0-0|summary|kopsavilkums
                     out_f.write(alignments[n] + "|" + source + "|" + target + "\n")
 
+    logging.info("Saved alignment-text file to: %s" % (args.out + "/aligned_text_raw.txt"))
+
 
 if __name__ == "__main__":
+    import logging
+
+    formatter = "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"
+    logging.basicConfig(format=formatter, level=logging.INFO)
+
     import argparse
 
     parser = argparse.ArgumentParser(description='')

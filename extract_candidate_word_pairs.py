@@ -31,17 +31,17 @@ def main(args):
 
     with open(args.parallel, 'r', encoding='utf-8') as in_f:
 
-        # output sentences with corresponding matches source-target pair
         with open(args.out + "/candidate_sentences.txt", 'w', encoding='utf-8', newline='\n') as out_f:
 
-            # parse parallel data
+            # parse alignment-text-tag data
             # e.g. 2|0-0|0-0|summary|kopsavilkums|n0msn000000000000000000000l0
             lines = in_f.readlines()
-            print("Matching target words with sentences...")
+            logging.info("Matching target words with sentences...")
             for line in tqdm(lines):
                 total_sent += 1
                 line = line.strip()
                 line = line.split("|")
+
                 # check if forward alignment exists
                 fwd_align = line[1].split(" ")
                 if fwd_align == ['']:
@@ -68,6 +68,7 @@ def main(args):
                         # keep track of used words
                         used_words.add(source_text[source_idx])
 
+                        # output sentences with corresponding matches with source-target pairs
                         # e.g. 0|konta izveides norādījumi|n0msg000000000000000000000l0 account konta
                         out_f.write(
                             str(target_idx) + "|" +
@@ -89,20 +90,30 @@ def main(args):
                 if used:
                     uniq_sent += 1
 
-    # output just source target pairs with POS tag for transliterator
+    # output source-target pairs with POS tag for transliterator
+    # e.g. n0msl000000000000000000000l0 forklift autokrāvējā
     with open(args.out + "/unique_transl_pairs.txt", 'w', encoding='utf-8', newline='\n') as out_f:
         for pair in uniq_pairs:
             out_f.write(pair + "\n")
 
-    print("Discarded %s sentences with missing forward alignment." % discarded)
-    print("Used %s/%s [%s %s] words." % (
+    logging.info("Discarded [%s/%s] %s %s sentences with missing forward alignment." % (
+        discarded, total_sent, round(100 * discarded / total_sent, 2), "%"))
+    logging.info("Used [%s/%s] %s %s of target words." % (
         len(used_words), len(all_words), round(100 * len(used_words) / len(all_words), 2), "%"))
-    print("Used %s/%s [%s %s] sentences." % (
+    logging.info("Used [%s/%s] %s %s unique sentences for candidate generation." % (
         uniq_sent, total_sent, round(100 * uniq_sent / total_sent, 2), "%"))
-    print("Total %s candidate sentences." % written_sent)
+    logging.info("Generated total %s candidate sentences." % written_sent)
+
+    logging.info("Saved candidate sentence file to: %s" % (args.out + "/candidate_sentences.txt"))
+    logging.info("Saved source-target pair file with POS tags to: %s" % (args.out + "/unique_transl_pairs.txt"))
 
 
 if __name__ == "__main__":
+    import logging
+
+    formatter = "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"
+    logging.basicConfig(format=formatter, level=logging.INFO)
+
     import argparse
 
     parser = argparse.ArgumentParser(description='')

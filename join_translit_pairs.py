@@ -1,7 +1,3 @@
-from collections import defaultdict
-from tqdm import tqdm
-
-
 def main(args):
     # source target pairs with POS tags
     # e.g. v00000000n00000y0000000000l0 refusal izvēlēties
@@ -38,8 +34,17 @@ def main(args):
 
                     out_f.write(pair + "|" + transl_word + "\n")
 
+    logging.info(
+        "Saved source-target pairs with transliterations to: %s" % (
+                args.out + "/unique_transl_pairs_filtered_translated.txt"))
+
 
 if __name__ == "__main__":
+    import logging
+
+    formatter = "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"
+    logging.basicConfig(format=formatter, level=logging.INFO)
+
     import argparse
 
     parser = argparse.ArgumentParser(description='')

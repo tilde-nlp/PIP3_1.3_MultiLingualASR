@@ -1,9 +1,4 @@
-from collections import defaultdict
-from tqdm import tqdm
-
-
 def main(args):
-
     # init counter
     count = 0
 
@@ -11,6 +6,8 @@ def main(args):
     # e.g. n0msl000000000000000000000l0 forklift autokrāvējā
     with open(args.pairs, 'r', encoding='utf-8') as in_f:
 
+        # scores for each pair
+        # e.g. 0.250
         with open(args.scores, 'r', encoding='utf-8') as in_f_2:
 
             # output filtered source target pairs with POS tags
@@ -39,7 +36,6 @@ def main(args):
                         # if source and target words are too similar, then discard them
                         # this is done to avoid transliterating already too similar words
                         if float(score) < args.threshold:
-
                             out_f.write(pair + "\n")
 
                             clean_pair = pair.split()[:2]
@@ -48,11 +44,21 @@ def main(args):
                             # count useful pairs
                             count += 1
 
-    print("Kept %s/%s [%s %s] pairs for transliteration." % (
+    logging.info("Kept [%s/%s] %s %s source-target pairs for transliteration." % (
         count, len(pairs), round(100 * count / len(pairs), 2), "%"))
+    logging.info(
+        "Saved filtered source-target pair file with POS tags to: %s" % (
+                args.out + "/unique_transl_pairs_filtered.txt"))
+    logging.info(
+        "Saved filtered and formatted source word file with POS tags to: %s" % (args.out + "/transl." + args.lang))
 
 
 if __name__ == "__main__":
+    import logging
+
+    formatter = "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"
+    logging.basicConfig(format=formatter, level=logging.INFO)
+
     import argparse
 
     parser = argparse.ArgumentParser(description='')
