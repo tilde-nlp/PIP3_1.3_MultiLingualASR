@@ -35,7 +35,7 @@ def main(args):
         with open(args.out + "/candidate_sentences.txt", 'w', encoding='utf-8', newline='\n') as out_f:
 
             # parse parallel data
-            # e.g. # e.g. 2|0-0|0-0|summary|kopsavilkums|n0msn000000000000000000000l0
+            # e.g. 2|0-0|0-0|summary|kopsavilkums|n0msn000000000000000000000l0
             lines = in_f.readlines()
             print("Matching target words with sentences...")
             for line in tqdm(lines):
