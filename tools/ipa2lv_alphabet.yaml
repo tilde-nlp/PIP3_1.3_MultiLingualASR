@@ -1,0 +1,104 @@
+# maps IPA to LV
+# should also contain mapping from multi-character placeholders to LV
+# e.g. "&&1&&": "ņū"
+
+ipa2lv:
+    # consonants
+    "b": "b"  # direct IPA to IPA
+    "d": "d"  # direct IPA to IPA
+    "ʤ": "dž"  # direct IPA to IPA
+
+    "ð": "z"  # does not exist in LV
+
+    "f": "f"  # direct IPA to IPA
+    "g": "g"  # direct IPA to IPA
+    "h": "h"  # direct IPA to IPA
+    "j": "j"  # direct IPA to IPA
+    "k": "k"  # direct IPA to IPA
+    "l": "l"  # direct IPA to IPA
+    "m": "m"  # direct IPA to IPA
+    "n": "n"  # direct IPA to IPA
+
+    "ŋ": "n"  # non translatable extra "n" sound end result is equivalent in latvian
+
+    "p": "p"  # direct IPA to IPA
+    "r": "r"  # direct IPA to IPA
+    "s": "s"  # direct IPA to IPA
+    "ʃ": "š"  # direct IPA to IPA
+    "t": "t"  # direct IPA to IPA
+    "ʧ": "č"  # direct IPA to IPA
+
+    "θ": "s"  # proposed "th" (thigh path") mapping
+
+    "v": "v"  # direct IPA to IPA
+
+    "w": "v"  # extra "v" sound
+
+    "z": "z"  # direct IPA to IPa
+
+    "ʒ": "ž"  # direct IPA to IPA
+
+    # strong vowels
+    "ɑ": "ā"  # different symbol this could also map to o
+    "ɔ": "o"  # seems to map to o very rare in this model
+
+    "æ": "a"  # likely maps to a in latvian
+
+    "ɛ": "e"  # direct IPA to IPA*
+
+    "i": "ī"  # direct IPA to IPA
+    "ɪ": "i"  # direct IPA to IPA
+
+    "ʊ": "u"  # direct IPA to IPA
+    "u": "ū"  # direct IPA to IPA
+
+    # compound sounds should be done last
+    "&&1&&": "ņū"  # proposed nj substitute
+    "&&2&&": "c"  # c instead of ds ts
+    "&&3&&": "tjū"  # proposed tj substitute
+    "&&4&&": "zj"  # proposed zj sound?
+    "&&5&&": "ai"  # direct IPA to IPA
+    "&&6&&": "au"  # direct IPA to IPA
+    "&&7&&": "ei"  # direct IPA to IPA
+    "&&8&&": "ou"  # pretty direct
+    "&&9&&": "oi"  # direct IPA to IPA
+    # syllabic consonants
+    "&&10&&": "l"  # could also be "el" or "ļ"
+    "&&11&&": "en"  # could also be "n" or "ņ"
+    "&&12&&": "em"  # could also be "em"
+
+    # weak vowels
+    "ə": "a"  # pretty direct
+
+    # map stresses to ""
+    "ˈ": ""
+    "ˌ": ""
+
+# map compound sounds to placeholders for parsing simplicity
+# this is done so that the compound does not get mapped character by character
+double_ipa2lv:
+    "nu": "&&1&&"  # proposed nj substitute
+    "ts": "&&2&&"  # c instead of ds ts
+    "tu": "&&3&&"  # proposed tj substitute
+    "zj": "&&4&&"  # proposed zj sound?
+    "aɪ": "&&5&&"  # direct IPA to IPA
+    "aʊ": "&&6&&"  # direct IPA to IPA
+    "eɪ": "&&7&&"  # direct IPA to IPA
+    "oʊ": "&&8&&"  # pretty direct
+    "ɔɪ": "&&9&&"  # direct IPA to IPA
+    "əl": "&&10&&"  # could also be "el" or "ļ"....
+    "ən": "&&11&&"  # could also be "n" or "ņ"
+    "əm": "&&12&&"  # could also be "em"
+
+triple_ipa2lv: null
+quad_ipa2lv: null
+
+# e.g.
+# triple_ipa2lv:
+#    # "abc" : "&&&13&&&"
+#
+#
+# quad_ipa2lv:
+#    # "abcd" : "&&&14&&&"
+#
+# NOTE: mapping from placeholder value to LV char should be added to "ipa2lv"
