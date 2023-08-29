@@ -51,7 +51,7 @@ if __name__ == "__main__":
 
     parser.add_argument('--pairs', type=str, required=True, help='path to pairs with tags')
     parser.add_argument('--transl', type=str, required=True, help='path to transliterations')
-    parser.add_argument('--keep_uppercase', action='store_false', required=False,
+    parser.add_argument('--keep_uppercase', action='store_true', required=False,
                         help='keep uppercase in the transliterations. By default transliterations are normalised to be lowercase')
     parser.add_argument('--out', type=str, required=True, help='path to out dir')
 
