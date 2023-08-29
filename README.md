@@ -435,7 +435,7 @@ These can be selected by passing the appropriate argument to the _finalise_candi
       Kelda noticēja , ka smaids viņa acīs nav izzudis .
       Kelda noticēja , ka smaids viņa acīs nav maintāniskais .
       Kelda ievēroja , ka smaids viņa acīs nav maintāniskais .
-      Kelda noticēja , ka **smails** viņa acīs nav maintāniskais .
+      Kelda noticēja , ka smails viņa acīs nav maintāniskais .
       ```
 
     - Also write a control corpus, with matching sentence amount, but without substitutions.
