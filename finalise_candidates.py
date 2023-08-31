@@ -131,7 +131,8 @@ def main(args):
     # e.g. v00000000n00000y0000000000l0 refusal izvēlēties|refusēsiet
     with open(args.pairs, 'r', encoding='utf-8') as in_f:
         lines = in_f.readlines()
-        for line in lines:
+        logging.info("Loading transliteration pairs into memory ...")
+        for line in tqdm(lines):
             line = line.strip()
             if line == "":
                 continue
@@ -142,6 +143,7 @@ def main(args):
     sents = defaultdict(list)
     with open(args.sent, 'r', encoding='utf-8') as in_f:
         lines = in_f.readlines()
+        logging.info("Loading candidate sentences into memory ...")
         for line in tqdm(lines):
             line = line.strip()
             if line == "":
@@ -168,7 +170,8 @@ def main(args):
     with open(args.out + "/final.txt", 'w', encoding='utf-8', newline='\n') as out_replace:
         with open(args.out + "/final_no_replace.txt", 'w', encoding='utf-8', newline='\n') as out_no_replace:
 
-            for sentence in sents:
+            logging.info("Performing substitution ...")
+            for sentence in tqdm(sents):
                 words = sents[sentence]
                 sentence = sentence.split()
 
@@ -205,7 +208,7 @@ def main(args):
                 # simple sample - one substitution per sentence
                 else:
                     # simple sample
-                    out_sents = sample_from_pool(sentence, words)
+                    out_sents = simple_sample(sentence, words)
                     # write control corpus with unchanged sentences
                     if len(out_sents) > 0:
                         out_no_replace.write(" ".join(sentence) + "\n")
