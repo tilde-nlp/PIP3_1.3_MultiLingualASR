@@ -1,6 +1,7 @@
 # PIP3 ...
 
 TODO: description, i.e. LM corpus enrichment method
+This is the prototype created in activity 1.3 of the project "AI Assistant for Multilingual Meeting Management" (No. of the Contract/Agreement: 1.1.1.1/19/A/082)
 
 ## Installation
 
