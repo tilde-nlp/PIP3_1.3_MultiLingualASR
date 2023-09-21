@@ -1,8 +1,79 @@
 # PIP3_1.3_Prototype
 
-TODO: description, i.e. LM corpus enrichment method
-
 This is the prototype created in activity 1.3 of the project "AI Assistant for Multilingual Meeting Management" (No. of the Contract/Agreement: 1.1.1.1/19/A/082)
+
+## Introduction
+
+It is becoming increasingly popular, especially among younger generations or among technical field experts to use foreign (e.g. English) words in their speech.
+This is done by either using the actual foreign word or transliterating/conjugating it to mimic the native grammar, in this case Latvian. Recognition of such words poses a challenge to many ASR systems, especially hybrid ones.
+Such words are not sufficiently represented in most existing training corpora, and their foreign nature makes them unlikely to be reconstructed by the language model (LM) from any learned BPE parts.
+Furthermore, in the case of hybrid ASR systems, LM may be prone to discarding any recognised foreign words as they do not appear in any previously learned context.
+The prototype presented in this repository aims to provide a method for enriching LM training corpora with said foreign words.
+
+Simply adding raw foreign words to a training corpus suffers from three major problems:
+- transliterated words are not covered
+- there might little to no phoneme overlap between the L1 (Latvian) and L2 (English) languages, which leads to poor reconstruction of raw words by the LM
+- simple word substitution degrades the context of the training sentences
+
+The prototype tackles each of these challenges in the following ways:
+- A transliteration model is developed with the aim of transliterating foreign words into Latvian, while preserving grammar and syntax
+- A transcription model is developed with the aim of mapping raw L2 words to L1 words, while adhering to L1 phonemes
+- L1:L2 parallel corpus is used as a starting point for any word substitutions with the aim of decreasing context breaking in the training sentences
+
+### Transliteration model
+
+The model makes use of transformer architecture and is trained on English-Latvian word pairs with the addition of POS tag for the Latvian language. 
+Input is the English word than needs to be transliterated, accompanied by POS tag of the desired Latvian output word, e.g.:
+
+``` 
+vs0000300i0000000000000000l0 n o t i c e d
+``` 
+
+Addition of the POS tag allows the model to learn how to transliterate the input correctly into the Latvian syntax. 
+For example, different outputs can be learned for verbs, nouns, tenses, plurals etc.
+
+TODO DATA
+
+The final model is provided as [Marian](https://marian-nmt.github.io/) checkpoint.
+
+
+### Transcription model
+
+Since there is poor overlap between English and Latvian phonemes any proposed transcription model would likely need to based on a neural architecture.
+That would require creation of English-Latvian transcription corpus. 
+A different, less resource intensive approach, is to make use of the International Phonetic Alphabet. 
+There is a variety of available existing English-to-IPA models, both neural and rule based. 
+Creating a rule based IPA-to-Latvian model is also relatively straight forward and can be done by leveraging existing mappings.
+Therefore a transcription pipeline of English->IPA->Latvian is proposed. 
+
+For faster development a simple rule-based English->IPA model was chosen, available as a python package at [https://pypi.org/project/eng-to-ipa/](https://pypi.org/project/eng-to-ipa/).
+Many easily accessible alternatives exist and for any future iterations a neural model is strongly recommended.
+
+In order to tackle the IPA->Latvian task, a phoneme map was constructed using any available online mappings and manually adding the missing ones.
+The final result is a transcription model capable of transcribing an English word into Latvian, using Latvian phoneme set, e.g.
+
+```
+    eng         IPA          lv
+moonlight -> ˈmunˌlaɪt -> mūnlait
+```
+
+### Proposed pipeline
+
+The prototype makes use of the following high-level pipeline for LM corpus enrichment:
+
+- A list of English words of interest is compiled using word frequency analysis
+- Said words are matched to their Latvian pair using an aligned parallel EN-LV corpus. 
+  Sentences containing matched pairs will form the LM training corpus. 
+  Such approach minimises any translational ambiguities that may arise from using simple dictionary matching. 
+  Furthermore, performing word substitution on aligned parallel sentences ensures minimal to no context degradation.
+- Words of interest are transcribed or transliterated using either of the methods described above.
+- Transcribed/transliterated words are substituted back into Latvian sentences to form an enriched LM training corpus.
+
+
+### Results
+
+?
+
 
 ## Installation
 
