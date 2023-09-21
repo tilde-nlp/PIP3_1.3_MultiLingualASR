@@ -81,7 +81,7 @@ The prototype makes use of the following high-level pipeline for LM corpus enric
 
 Python 3 is recommended.
 
-``` pip install -r requirments.txt ```
+``` pip install -r requirements.txt ```
 
 ### Marian-NMT
 
