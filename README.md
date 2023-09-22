@@ -72,8 +72,7 @@ The prototype makes use of the following high-level pipeline for LM corpus enric
 
 ### Results
 
-?
-
+Our testing suggests 10-15% ***relative CER*** improvement on foreign words, while showing only 4% ***relative CER*** degradation on general corpora.
 
 ## Installation
 
