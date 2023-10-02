@@ -144,7 +144,7 @@ for     1.469
 
 - Optionally - list of source language stop words (i.e., overly common words) to filter out
 ``` 
-data/en.not_stemmed.idf
+data/stop-words.en
 
 a
 able
