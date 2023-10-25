@@ -32,7 +32,17 @@ vs0000300i0000000000000000l0 n o t i c e d
 Addition of the POS tag allows the model to learn how to transliterate the input correctly into the Latvian syntax. 
 For example, different outputs can be learned for verbs, nouns, tenses, plurals etc.
 
-TODO DATA
+#### Data
+
+
+In order to extract the transliterated word dictionary for model training, we used a parallel English-Latvian corpus. This corpus is typically used to train neural machine translation systems. The the transliterated word dictionary was created as follows:
+1) First, the corpus was cleaned, normalised, filtered, and pre-processed (tokenised and truecased) using methods and tools from the Tilde MT platform (Pinnis et al., 2018).
+2) Then, both English and Latvian sides were lemmatised using Tilde's part-of-speech taggers for Latvian and English. The taggers are averaged perceptron classifiers. We use the implementation by [Nikiforovs (2014)](https://github.com/pdonald/latvian), however, with differring features for English and Latvian.
+3) After lemmatization, we performed word alignment using eflomal (Östling and Tiedemann, 2016)
+4) Then, we extracted source-to-target and target-to-source lexical translation tables using the word alignments with the help of scripts from the Moses toolkit (Koehn et al., 2007).
+5) Now that we had the noisy probabilistic dictionaries ready, we filtered them using the tool FilterGizaDictionary (Aker et al. (2014)) (https://github.com/pmarcis/dict-filtering). This tool filters noise (e.g., stopwords paired with content words, punctuation or numerals paired with words, etc.) and as a side-product produces transliterated word dictionaries. A pair of two source and target words are assumed to be transliterations if the two words are longer than three letters and they have a similarity score is greater or equal to 0.7. To calculate similarity, we transform the Levenshtein distance (Levenshtein, 1966) between stemmed variants of the two words into a similarity metric.
+ 
+
 
 The final model is provided as [Marian](https://marian-nmt.github.io/) checkpoint.
 
@@ -73,6 +83,17 @@ The prototype makes use of the following high-level pipeline for LM corpus enric
 ### Results
 
 Our testing suggests 10-15% ***relative CER*** improvement on foreign words, while showing only 4% ***relative CER*** degradation on general corpora.
+
+### References
+Pinnis, M., Vasiļjevs, A., Kalniņš, R., Rozis, R., Skadiņš, R., & Šics, V. (2018, May). Tilde MT platform for developing client specific MT solutions. In Proceedings of the Eleventh International Conference on Language Resources and Evaluation (LREC 2018).
+
+Östling, R., & Tiedemann, J. (2016). Efficient word alignment with markov chain monte carlo. The Prague Bulletin of Mathematical Linguistics.
+
+Koehn, P., Hoang, H., Birch, A., Callison-Burch, C., Federico, M., Bertoldi, N., ... & Herbst, E. (2007, June). Moses: Open source toolkit for statistical machine translation. In Proceedings of the 45th annual meeting of the association for computational linguistics companion volume proceedings of the demo and poster sessions (pp. 177-180). Association for Computational Linguistics.
+
+Aker, A., Paramita, M. L., Pinnis, M., & Gaizauskas, R. (2014, May). Bilingual dictionaries for all EU languages. In LREC 2014 Proceedings (pp. 2839-2845). European Language Resources Association.
+
+Levenshtein, V. I. (1966). Binary Codes Capable of Correcting Deletions, Insertions, and Reversals. Soviet Physics Doklady, 10(8), 707--710.
 
 ## Installation
 
