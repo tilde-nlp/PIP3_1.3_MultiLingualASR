@@ -1,0 +1,12 @@
+relative-paths: true
+models:
+  - model.npz.best-translation.npz
+vocabs:
+  - shared-vocab.en-lv.yml
+  - shared-vocab.en-lv.yml
+beam-size: 12
+normalize: 0.6
+word-penalty: 0
+mini-batch: 16
+maxi-batch: 100
+maxi-batch-sort: src

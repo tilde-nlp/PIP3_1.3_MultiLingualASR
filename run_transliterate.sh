@@ -14,7 +14,7 @@ lev_exe=tools/ScoreCognateOverlapForStemmedWords.exe
 # transliterator decoder
 decoder=tools/marian-decoder
 # transliterator ckpt
-ckpt=tools/model.npz.best-translation.npz.decoder.batch.yml
+ckpt=tools/trsl_model/model.npz.best-translation.npz.decoder.batch.yml
 
 # outdir
 out_dir=debug
